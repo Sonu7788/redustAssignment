@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react'; // Import useCallback
 import './App.css';
 
 function App() {
@@ -8,11 +8,8 @@ function App() {
   const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
 
   // Fetch Users on Load
-  useEffect(() => {
-    fetchUsers();
-  }, []);
-
-  const fetchUsers = async () => {
+  // Wrapped in useCallback to prevent infinite loop and fix linting error
+  const fetchUsers = useCallback(async () => {
     try {
       const response = await fetch(`${API_URL}/users`);
       const data = await response.json();
@@ -20,7 +17,11 @@ function App() {
     } catch (error) {
       console.error("Error fetching users:", error);
     }
-  };
+  }, [API_URL]);
+
+  useEffect(() => {
+    fetchUsers();
+  }, [fetchUsers]); // Added fetchUsers to dependency array
 
   // Handle Input Change
   const handleChange = (e) => {
@@ -88,30 +89,3 @@ function App() {
 
       <table>
         <thead>
-          <tr>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Role</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {users.map((user) => (
-            <tr key={user._id}>
-              <td>{user.name}</td>
-              <td>{user.email}</td>
-              <td>{user.role}</td>
-              <td>
-                <button className="delete-btn" onClick={() => deleteUser(user._id)}>
-                  Delete
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-  );
-}
-
-export default App;
