@@ -36,3 +36,26 @@
     transform: rotate(360deg);
   }
 }
+/* Add these classes to your existing App.css */
+
+.edit-btn {
+  background-color: #ffc107; /* Yellow/Orange */
+  color: #000;
+  margin-right: 5px;
+}
+
+.update-btn {
+  background-color: #28a745; /* Green */
+}
+
+.filter-container {
+  margin-bottom: 20px;
+}
+
+.search-input {
+  padding: 10px;
+  width: 100%;
+  max-width: 400px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
